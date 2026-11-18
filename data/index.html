@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Wireless Word</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Josefin+Sans:wght@400;600;700&family=Limelight&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* One visual world: a 1940s walnut tabletop wireless with an amber glass dial, brass trim and Bakelite controls. */
+  --walnut-deep: #2b170c;
+  --walnut: #5a321a;
+  --walnut-light: #87522c;
+  --brass: #c9a24a;
+  --brass-light: #ecd28e;
+  --glass: #f6cf7a;
+  --glass-deep: #b9802c;
+  --bakelite: #1c1410;
+  --ivory: #efe4c8;
+  --paper: #f6eedb;
+  --ink: #2a1c12;
+  --ink-soft: #6b5440;
+  --needle: #b3261e;
+  --room: #1a120d;
+  --font-brand: "Limelight", "Didot", Georgia, serif;
+  --font-label: "Josefin Sans", "Futura", "Gill Sans", system-ui, sans-serif;
+  --font-text: "EB Garamond", Garamond, "Times New Roman", serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: radial-gradient(ellipse at 50% -10%, #3a2618 0%, var(--room) 60%) fixed, var(--room);
+  color: var(--ivory);
+  font-family: var(--font-label);
+  min-height: 100%;
+  padding: 24px 16px 48px;
+}
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 24px; }
+
+/* ---------- Cabinet ---------- */
+.cabinet {
+  position: relative;
+  border-radius: 28px 28px 18px 18px;
+  padding: 22px 26px 24px;
+  background:
+    repeating-linear-gradient(92deg, rgba(0,0,0,.10) 0 2px, transparent 2px 9px, rgba(255,255,255,.03) 9px 10px, transparent 10px 23px),
+    linear-gradient(180deg, var(--walnut-light) 0%, var(--walnut) 45%, var(--walnut-deep) 100%);
+  box-shadow: 0 30px 60px rgba(0,0,0,.55), inset 0 2px 0 rgba(255,255,255,.18), inset 0 -6px 0 rgba(0,0,0,.35);
+  display: grid; gap: 18px;
+}
+.brandrow { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.brand {
+  font-family: var(--font-brand); font-size: clamp(26px, 4vw, 38px); letter-spacing: .04em;
+  color: var(--brass-light); text-shadow: 0 1px 0 #000, 0 0 18px rgba(236,210,142,.25); margin: 0; line-height: 1;
+}
+.brand small { display: block; font-family: var(--font-label); font-size: 11px; letter-spacing: .32em; text-transform: uppercase; color: var(--brass); margin-top: 6px; text-shadow: none; }
+.valve { display: flex; align-items: center; gap: 10px; font-size: 11px; letter-spacing: .25em; text-transform: uppercase; color: var(--brass); }
+.valve i {
+  width: 16px; height: 16px; border-radius: 50%; background: #3d2412; box-shadow: inset 0 2px 3px rgba(0,0,0,.6), 0 0 0 2px #7a5a24;
+  transition: background .4s, box-shadow .4s;
+}
+.on .valve i { background: radial-gradient(circle at 40% 35%, #fff2c0, #ff9c2a 55%, #a3410c); box-shadow: 0 0 14px 4px rgba(255,156,42,.55), 0 0 0 2px #7a5a24; }
+
+/* ---------- Dial ---------- */
+.dial {
+  position: relative; border-radius: 14px; padding: 16px 22px 12px;
+  background: radial-gradient(ellipse at 50% 40%, #fbe3a6 0%, var(--glass) 45%, var(--glass-deep) 100%);
+  box-shadow: 0 0 0 4px var(--brass), 0 0 0 7px #6e4f1c, inset 0 0 40px rgba(110,60,0,.45);
+  color: var(--ink); overflow: hidden;
+}
+.off .dial { filter: saturate(.55) brightness(.82); }
+.nowplaying { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+.np-title { font-family: var(--font-brand); font-size: clamp(26px, 4.4vw, 42px); line-height: 1.05; margin: 0; text-wrap: balance; }
+.np-meta { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: #5a3d1c; margin-top: 4px; }
+.np-pos { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: #5a3d1c; text-align: right; font-variant-numeric: tabular-nums; }
+.np-station { font-weight: 700; color: var(--ink); }
+.band { position: relative; height: 64px; margin-top: 14px; cursor: pointer; touch-action: none; }
+.band:focus-visible { outline: 2px dashed var(--ink); outline-offset: 4px; }
+.band .rule { position: absolute; left: 0; right: 0; top: 30px; height: 2px; background: rgba(42,28,18,.55); }
+.band .tick { position: absolute; top: 22px; width: 1px; height: 8px; background: rgba(42,28,18,.55); }
+.band .tick.big { top: 16px; height: 14px; width: 2px; background: rgba(42,28,18,.8); }
+.band .lbl { position: absolute; top: 0; transform: translateX(-2px); font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; color: rgba(42,28,18,.85); }
+.band .num { position: absolute; top: 38px; transform: translateX(-50%); font-size: 10px; letter-spacing: .08em; color: rgba(42,28,18,.7); font-variant-numeric: tabular-nums; }
+.needle { position: absolute; top: -4px; bottom: 8px; width: 3px; margin-left: -1.5px; background: var(--needle); box-shadow: 0 0 6px rgba(179,38,30,.6); transition: left .5s ease; }
+.needle::after { content: ""; position: absolute; left: -4px; top: -4px; width: 11px; height: 11px; border-radius: 50%; background: var(--needle); }
+.band-caption { display: flex; justify-content: space-between; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: #6b4a22; }
+
+/* ---------- Controls ---------- */
+.controls { display: grid; grid-template-columns: 1fr auto 1fr; gap: 18px; align-items: center; }
+.keys-group { display: grid; gap: 10px; }
+.keys-group.right { justify-items: end; }
+.keys-group .keys, .field .keys { justify-self: start; width: max-content; max-width: 100%; }
+.keys-group.right .keys { justify-self: end; }
+.band .lbl { margin-left: 5px; }
+.keylabel { font-size: 10px; letter-spacing: .28em; text-transform: uppercase; color: var(--brass); }
+.keys { display: inline-flex; gap: 3px; padding: 4px; border-radius: 6px; background: #120c08; box-shadow: inset 0 2px 6px rgba(0,0,0,.8); flex-wrap: wrap; }
+.key {
+  font: 700 11px/1 var(--font-label); letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink); background: linear-gradient(180deg, #fbf5e4, #ddd0ab); border: 0; border-radius: 3px;
+  padding: 11px 12px 9px; cursor: pointer; box-shadow: 0 4px 0 #9d8f6c, 0 5px 3px rgba(0,0,0,.5);
+  transform: translateY(0); transition: transform .08s, box-shadow .08s;
+}
+.key[aria-pressed="true"] { transform: translateY(3px); box-shadow: 0 1px 0 #9d8f6c, 0 1px 1px rgba(0,0,0,.5); background: linear-gradient(180deg, #e7d9b2, #cbbb8f); }
+.key:focus-visible, .knob:focus-visible, .play:focus-visible, select:focus-visible, input:focus-visible, button:focus-visible { outline: 2px solid var(--brass-light); outline-offset: 3px; }
+
+.transport { display: flex; align-items: center; gap: 18px; }
+.knob {
+  width: 58px; height: 58px; border-radius: 50%; border: 0; cursor: pointer; color: var(--brass-light);
+  background: conic-gradient(from 0deg, #2a201a, #120d0a, #2a201a, #120d0a, #2a201a);
+  box-shadow: 0 0 0 3px #7a5a24, 0 0 0 5px #2a1a0e, 0 6px 12px rgba(0,0,0,.6), inset 0 2px 2px rgba(255,255,255,.15);
+  display: grid; place-items: center;
+}
+.knob:active { transform: rotate(-12deg); }
+.play {
+  width: 84px; height: 84px; border-radius: 50%; border: 0; cursor: pointer; color: var(--bakelite);
+  background: radial-gradient(circle at 38% 30%, #fff6dc, var(--brass-light) 35%, var(--brass) 70%, #7a5a24);
+  box-shadow: 0 0 0 4px #2a1a0e, 0 10px 18px rgba(0,0,0,.6), inset 0 -4px 8px rgba(0,0,0,.25);
+  display: grid; place-items: center;
+}
+.play:active { transform: scale(.97); }
+.knob svg { width: 22px; height: 22px; }
+.play svg { width: 34px; height: 34px; }
+
+.settings { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: end; padding-top: 14px; border-top: 1px solid rgba(201,162,74,.3); }
+.field { display: grid; gap: 6px; }
+.field label, .field .keylabel { font-size: 10px; letter-spacing: .28em; text-transform: uppercase; color: var(--brass); }
+select, input[type="range"] { font: 600 13px var(--font-label); }
+select {
+  appearance: none; background: #120c08 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23c9a24a'/%3E%3C/svg%3E") no-repeat right 10px center;
+  color: var(--ivory); border: 1px solid #6e4f1c; border-radius: 6px; padding: 8px 28px 8px 10px; max-width: 260px;
+}
+input[type="range"] { accent-color: var(--brass); width: 140px; }
+.check { display: flex; gap: 8px; align-items: center; font-size: 12px; letter-spacing: .08em; color: var(--ivory); cursor: pointer; padding-bottom: 6px; }
+.check input { accent-color: var(--brass); width: 16px; height: 16px; }
+.speed-val { font-variant-numeric: tabular-nums; color: var(--ivory); font-size: 12px; margin-left: 6px; }
+
+/* ---------- Lower panels ---------- */
+.lower { display: grid; grid-template-columns: minmax(300px, 380px) 1fr; gap: 24px; align-items: start; }
+.panel {
+  background: linear-gradient(180deg, #2a1b12, #1f140d); border: 1px solid #4a3220; border-radius: 14px; padding: 18px;
+  box-shadow: 0 14px 30px rgba(0,0,0,.4);
+}
+.panel h2 { font-family: var(--font-brand); font-weight: 400; font-size: 22px; color: var(--brass-light); margin: 0 0 4px; letter-spacing: .03em; }
+.panel .sub { font-size: 12px; color: #bba57f; margin: 0 0 14px; line-height: 1.5; }
+.tuned-label { font-size: 10px; letter-spacing: .28em; text-transform: uppercase; color: var(--brass); margin: 0 0 6px; }
+.tuned-name { font-family: var(--font-brand); font-size: 28px; line-height: 1.1; color: var(--brass-light); margin: 0; text-wrap: balance; }
+.tuned-meta { font-size: 13px; color: #bba57f; margin: 6px 0 16px; font-variant-numeric: tabular-nums; }
+.btn-brass {
+  font: 700 13px var(--font-label); letter-spacing: .14em; text-transform: uppercase; color: var(--bakelite);
+  background: linear-gradient(180deg, var(--brass-light), var(--brass)); border: 0; border-radius: 999px;
+  padding: 14px 22px 12px; cursor: pointer; box-shadow: 0 4px 0 #7a5a24, 0 6px 12px rgba(0,0,0,.4);
+}
+.btn-brass:active { transform: translateY(2px); box-shadow: 0 2px 0 #7a5a24; }
+.btn-brass:disabled { opacity: .45; cursor: not-allowed; }
+.btn-brass.wide { width: 100%; }
+.btn-plain { font: 600 13px var(--font-label); letter-spacing: .06em; background: none; border: 1px solid #5b4029; color: var(--ivory); border-radius: 999px; padding: 12px 18px 10px; cursor: pointer; }
+.btn-plain:hover { border-color: var(--brass); }
+.np-station-btn { font: 700 12px var(--font-label); letter-spacing: .14em; text-transform: uppercase; color: var(--ink); background: rgba(255,255,255,.35); border: 1px solid rgba(42,28,18,.4); border-radius: 999px; padding: 7px 12px 5px; cursor: pointer; display: inline-flex; gap: 8px; align-items: center; }
+.np-station-btn:hover { background: rgba(255,255,255,.55); }
+.np-station-btn svg { width: 12px; height: 12px; }
+
+/* ---------- Station sheet ---------- */
+.sheet-back { position: fixed; inset: 0; background: rgba(10,6,3,.72); backdrop-filter: blur(3px); z-index: 50; display: grid; place-items: center; padding: 16px; }
+.sheet {
+  width: min(760px, 100%); max-height: min(88vh, 900px); display: grid; grid-template-rows: auto auto 1fr auto;
+  background: linear-gradient(180deg, #2a1b12, #1c120c); border: 1px solid #5b4029; border-radius: 18px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.7); overflow: hidden;
+}
+.sheet-head { padding: 18px 20px 12px; display: grid; gap: 12px; border-bottom: 1px solid #3c2818; }
+.sheet-title { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.sheet-title h2 { font-family: var(--font-brand); font-weight: 400; font-size: 24px; color: var(--brass-light); margin: 0; }
+.xbtn { width: 38px; height: 38px; border-radius: 50%; border: 1px solid #5b4029; background: #160f0a; color: var(--ivory); cursor: pointer; display: grid; place-items: center; }
+.xbtn svg { width: 16px; height: 16px; }
+.search { position: relative; }
+.search svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: #a8916b; pointer-events: none; }
+.search input {
+  width: 100%; font: 400 17px var(--font-label); color: var(--ivory); background: #120c08;
+  border: 1px solid #5b4029; border-radius: 12px; padding: 14px 40px 12px 44px;
+}
+.search input::placeholder { color: #8a7656; }
+.search input:focus { border-color: var(--brass); outline: none; box-shadow: 0 0 0 3px rgba(201,162,74,.25); }
+.search .clr { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; border: 0; background: none; color: #a8916b; cursor: pointer; border-radius: 50%; }
+.mine { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 34px; }
+.mine .lead { font-size: 10px; letter-spacing: .26em; text-transform: uppercase; color: var(--brass); margin-right: 4px; }
+.pill { display: inline-flex; align-items: center; gap: 6px; font: 700 13px var(--font-label); color: var(--bakelite); background: var(--brass-light); border: 0; border-radius: 999px; padding: 7px 10px 5px 12px; cursor: pointer; }
+.pill .kind { font-weight: 400; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; opacity: .7; }
+.pill svg { width: 12px; height: 12px; }
+.pill.more { background: #3d2814; color: var(--brass-light); cursor: default; padding-right: 12px; }
+.mine .empty { font-size: 13px; color: #bba57f; }
+.sheet-body { overflow: auto; padding: 16px 20px 22px; display: grid; gap: 22px; align-content: start; }
+.sec h3 { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin: 0 0 10px; font-size: 10px; letter-spacing: .28em; text-transform: uppercase; color: var(--brass); font-weight: 700; }
+.sec h3 small { font-size: 11px; letter-spacing: .04em; text-transform: none; color: #a8916b; font-weight: 400; }
+.sec h4 { margin: 12px 0 8px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #a8916b; font-weight: 600; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font: 600 14px var(--font-label); letter-spacing: .01em; text-align: left; padding: 10px 14px 8px;
+  border-radius: 999px; border: 1px solid #5b4029; background: #160f0a; color: var(--ivory); cursor: pointer;
+  display: inline-flex; align-items: baseline; gap: 8px;
+}
+.chip:hover { border-color: var(--brass); }
+.chip .n { font-size: 11px; font-weight: 400; color: #a8916b; font-variant-numeric: tabular-nums; }
+.chip[aria-pressed="true"] { background: var(--brass-light); border-color: var(--brass-light); color: var(--bakelite); }
+.chip[aria-pressed="true"] .n { color: #5a3d1c; }
+.chip[aria-pressed="true"]::before { content: "✓"; font-weight: 700; }
+.chip.station { border-radius: 12px; display: grid; gap: 2px; padding: 12px 14px 10px; min-width: 150px; }
+.chip.station[aria-pressed="true"]::before { content: none; }
+.chip.addmore { border-style: dashed; color: var(--brass-light); background: transparent; }
+.narrow-note { font-size: 12px; color: #d9c08a; background: #2e1f14; border-radius: 8px; padding: 8px 12px; margin: 0 0 10px; }
+.noresults { font-size: 14px; color: #bba57f; }
+.sheet-foot { display: flex; gap: 10px; align-items: center; justify-content: space-between; padding: 14px 20px; border-top: 1px solid #3c2818; background: #170f0a; flex-wrap: wrap; }
+.sheet-foot .sum { font-size: 13px; color: #bba57f; font-variant-numeric: tabular-nums; }
+.sheet-foot .sum b { color: var(--ivory); font-weight: 700; }
+.sheet-foot .btns { display: flex; gap: 10px; }
+.upnext { margin-top: 18px; border-top: 1px solid #4a3220; padding-top: 14px; }
+.upnext h3 { margin: 0 0 8px; font-size: 10px; letter-spacing: .28em; text-transform: uppercase; color: var(--brass); font-weight: 700; }
+.upnext ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.upnext li button { width: 100%; display: flex; justify-content: space-between; gap: 8px; font: 400 14px var(--font-text); background: none; border: 0; color: var(--ivory); padding: 6px 4px; text-align: left; cursor: pointer; border-radius: 4px; }
+.upnext li button:hover { background: #2e1f14; }
+.upnext li .meta { font: 400 11px var(--font-label); color: #a8916b; letter-spacing: .04em; white-space: nowrap; }
+.note { font-size: 11.5px; color: #a8916b; line-height: 1.5; margin: 12px 0 0; }
+
+/* ---------- Reading card ---------- */
+.reading {
+  background: var(--paper); color: var(--ink); border-radius: 6px; padding: 26px 30px 30px;
+  box-shadow: 0 14px 30px rgba(0,0,0,.45), inset 0 0 60px rgba(160,120,60,.18);
+  display: grid; gap: 4px; align-content: start;
+}
+.reading header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid #d8c79e; padding-bottom: 10px; margin-bottom: 8px; }
+.reading h2 { font-family: var(--font-text); font-weight: 600; font-size: 30px; margin: 0; text-wrap: balance; }
+.reading .tr { font: 700 10px var(--font-label); letter-spacing: .26em; text-transform: uppercase; color: var(--ink-soft); }
+.verses { font-family: var(--font-text); font-size: 20px; line-height: 1.62; max-width: 66ch; max-height: 62vh; overflow: auto; padding-right: 8px; scroll-behavior: smooth; }
+.v { cursor: pointer; border-radius: 3px; transition: background .3s; padding: 1px 0; }
+.v:hover { background: rgba(201,162,74,.15); }
+.v sup { font: 700 10px var(--font-label); color: #9b7b45; margin-right: 3px; letter-spacing: .04em; }
+.v.cur { background: rgba(246,207,122,.65); box-shadow: 0 0 0 3px rgba(246,207,122,.65); }
+.reading .hint { font: 400 12px var(--font-label); color: var(--ink-soft); margin-top: 10px; }
+.msg { font: 600 13px var(--font-label); color: #7a2a14; background: #f3dcc0; border-radius: 6px; padding: 10px 12px; }
+[hidden] { display: none !important; }
+
+@media (max-width: 860px) {
+  .lower { grid-template-columns: 1fr; }
+  .reading { order: -1; }
+  .controls { grid-template-columns: 1fr; justify-items: center; }
+  .keys-group, .keys-group.right { justify-items: center; }
+  .transport { order: -1; }
+}
+@media (max-width: 420px) {
+  body { padding: 14px 10px 32px; }
+  .cabinet { padding: 18px 14px; }
+  .reading { padding: 20px 18px; }
+  .verses { font-size: 18px; }
+  .sheet-back { padding: 0; place-items: end stretch; }
+  .sheet { max-height: 94vh; border-radius: 18px 18px 0 0; }
+  .sheet-foot .btns { width: 100%; }
+  .sheet-foot .btns .btn-brass { flex: 1; }
+  .chip.station { min-width: 0; flex: 1 1 140px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .needle, .v, .key, .valve i { transition: none; }
+  .verses { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="cabinet off" id="cabinet" aria-label="Radio">
+    <div class="brandrow">
+      <h1 class="brand">The Wireless Word<small>Scripture, read aloud, all day long</small></h1>
+      <div class="valve"><i aria-hidden="true"></i><span id="onair">Standing by</span></div>
+    </div>
+
+    <div class="dial">
+      <div class="nowplaying">
+        <div>
+          <p class="np-title" id="npTitle">Genesis 1</p>
+          <div class="np-meta" id="npMeta">Moses · c. 1440 BC</div>
+        </div>
+        <div class="np-pos">
+          <button class="np-station-btn" id="npStationBtn" aria-haspopup="dialog"><span id="npStation">Whole Bible</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+          <div id="npPos" style="margin-top:6px">Chapter 1 of 1,189</div>
+        </div>
+      </div>
+      <div class="band" id="band" role="slider" tabindex="0" aria-label="Tune to a chapter in this station" aria-valuemin="1" aria-valuemax="1189" aria-valuenow="1">
+        <div class="rule"></div>
+        <div id="bandMarks"></div>
+        <div class="needle" id="needle" style="left:0%"></div>
+      </div>
+      <div class="band-caption"><span id="capOrder">Bible order</span><span>Tap the dial to tune</span></div>
+    </div>
+
+    <div class="controls">
+      <div class="keys-group">
+        <span class="keylabel">Translation</span>
+        <div class="keys" role="group" aria-label="Translation">
+          <button class="key" data-tr="kjv" id="trKjv">King James</button>
+          <button class="key" data-tr="bsb" id="trBsb">Berean Standard</button>
+        </div>
+      </div>
+      <div class="transport">
+        <button class="knob" id="prevBtn" aria-label="Previous chapter" title="Previous chapter"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
+        <button class="play" id="playBtn" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" id="playIcon"><path d="M7 4v16l14-8z"/></svg></button>
+        <button class="knob" id="nextBtn" aria-label="Next chapter" title="Next chapter"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></button>
+      </div>
+      <div class="keys-group right">
+        <span class="keylabel">Order</span>
+        <div class="keys" role="group" aria-label="Order">
+          <button class="key" data-order="canon">Bible order</button>
+          <button class="key" data-order="chrono">As it happened</button>
+          <button class="key" data-order="written">As written</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings">
+      <div class="field">
+        <span class="keylabel">Dating</span>
+        <div class="keys" role="group" aria-label="Dating">
+          <button class="key" data-dating="trad">Traditional</button>
+          <button class="key" data-dating="schol">Scholarly</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="voiceSel">Voice</label>
+        <select id="voiceSel"><option>Loading voices…</option></select>
+      </div>
+      <div class="field">
+        <label for="speed">Speed <span class="speed-val" id="speedVal">1.0×</span></label>
+        <input type="range" id="speed" min="0.6" max="1.6" step="0.05" value="1">
+      </div>
+      <div class="field">
+        <label for="sleepSel">Sleep timer</label>
+        <select id="sleepSel">
+          <option value="0">Off</option>
+          <option value="15">15 minutes</option>
+          <option value="30">30 minutes</option>
+          <option value="60">1 hour</option>
+          <option value="chapter">End of chapter</option>
+        </select>
+      </div>
+      <label class="check" for="announce"><input type="checkbox" id="announce" checked> Announce each chapter</label>
+    </div>
+  </section>
+
+  <div class="lower">
+    <section class="panel" aria-labelledby="tunedName">
+      <p class="tuned-label">Tuned to</p>
+      <p class="tuned-name" id="tunedName">Whole Bible</p>
+      <p class="tuned-meta" id="tunedMeta">1,189 chapters · about 85 hours</p>
+      <button class="btn-brass wide" id="changeBtn" aria-haspopup="dialog">Change station</button>
+      <div class="upnext">
+        <h3>Up next</h3>
+        <ol id="upnext"></ol>
+      </div>
+    </section>
+
+    <article class="reading" aria-live="off">
+      <header>
+        <h2 id="readTitle">Genesis 1</h2>
+        <span class="tr" id="readTr">King James Version</span>
+      </header>
+      <div class="msg" id="msg" hidden></div>
+      <div class="verses" id="verses"><p>Loading…</p></div>
+      <p class="hint">Tap any verse to start reading from there.</p>
+    </article>
+  </div>
+</div>
+
+<div class="sheet-back" id="sheetBack" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetH">
+    <div class="sheet-head">
+      <div class="sheet-title">
+        <h2 id="sheetH">What would you like to hear?</h2>
+        <button class="xbtn" id="sheetClose" aria-label="Close without changing"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="2"/></svg></button>
+      </div>
+      <div class="search">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13 13l5 5" stroke="currentColor" stroke-width="2"/></svg>
+        <input type="search" id="q" placeholder="Search books or authors" autocomplete="off" aria-label="Search books and authors">
+        <button class="clr" id="qClear" aria-label="Clear search" hidden>✕</button>
+      </div>
+      <div class="mine" id="mine" aria-live="polite"></div>
+    </div>
+    <div class="sheet-body" id="sheetBody">
+      <div class="sec" id="secStations"><h3>Quick stations</h3><div class="chips" id="stationChips"></div></div>
+      <div class="sec" id="secAuthors"><h3>Authors <small>tap one to hear only what they wrote</small></h3><div class="chips" id="authorChips"></div></div>
+      <div class="sec" id="secBooks"><h3>Books</h3><p class="narrow-note" id="bookNote" hidden></p><div id="bookChips"></div></div>
+      <p class="noresults" id="noResults" hidden></p>
+      <p class="note">Authors follow traditional attribution. Psalms are credited by their headings; those without one are listed as anonymous.</p>
+    </div>
+    <div class="sheet-foot">
+      <span class="sum" id="sheetSum"></span>
+      <div class="btns">
+        <button class="btn-plain" id="sheetReset">Start over</button>
+        <button class="btn-brass" id="sheetPlay">Play</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  const TR_NAMES = { kjv: 'King James Version', bsb: 'Berean Standard Bible' };
+  const ORDER_NAMES = { canon: 'Bible order', chrono: 'As it happened', written: 'In the order written' };
+  const STORE = 'wirelessWord.v1';
+  const synth = window.speechSynthesis;
+  const $ = (id) => document.getElementById(id);
+  const range = (a, b) => Array.from({ length: b - a }, (_, i) => a + i);
+
+  let BOOKS = [], CHRONO = [];
+  const S = {
+    tr: 'kjv', order: 'canon', dating: 'trad',
+    sel: { books: null, authors: null },
+    queue: [], qi: 0, vi: 0, playing: false, gen: 0,
+    rate: 1, voiceURI: null, announce: true, sleep: '0', sleepAt: 0,
+  };
+  const cache = {};
+
+  // ---------- helpers ----------
+  const authorOf = (bi, ch) => { const a = BOOKS[bi].authors; return Array.isArray(a) ? a[ch - 1] : a; };
+  const dateOf = (bi, ch, k) => { const d = BOOKS[bi][k || S.dating]; return Array.isArray(d) ? d[ch - 1] : d; };
+  const fmtYear = (y) => y < 0 ? `c. ${-y} BC` : `c. AD ${y}`;
+  const fmtN = (n) => n.toLocaleString('en-GB');
+  const authorLabel = (a) => a === 'Unknown' ? 'Author unknown' : a;
+  const chapLabel = (bi, ch) => BOOKS[bi].code === 'PSA' ? `Psalm ${ch}` : (BOOKS[bi].chapters === 1 ? BOOKS[bi].name : `${BOOKS[bi].name} ${ch}`);
+
+  function loadBook(tr, bi) {
+    const key = tr + '/' + bi;
+    if (!cache[key]) {
+      cache[key] = fetch(`data/${tr}/${String(bi + 1).padStart(2, '0')}.json`).then((r) => {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      }).catch((e) => { delete cache[key]; throw e; });
+    }
+    return cache[key];
+  }
+
+  function save() {
+    try {
+      localStorage.setItem(STORE, JSON.stringify({
+        tr: S.tr, order: S.order, dating: S.dating, sel: S.sel, rate: S.rate, voiceURI: S.voiceURI,
+        announce: S.announce, cur: S.queue[S.qi] || null, vi: S.vi,
+      }));
+    } catch (e) { /* storage unavailable */ }
+  }
+  function restore() {
+    try { return JSON.parse(localStorage.getItem(STORE) || 'null'); } catch (e) { return null; }
+  }
+
+  // ---------- stations ----------
+  const PRESETS = [
+    { id: 'all', label: 'Whole Bible', books: null, authors: null },
+    { id: 'ot', label: 'Old Testament', books: range(0, 39), authors: null },
+    { id: 'nt', label: 'New Testament', books: range(39, 66), authors: null },
+    { id: 'law', label: 'Books of Moses', books: range(0, 5), authors: null },
+    { id: 'gospels', label: 'The Gospels', books: range(39, 43), authors: null },
+    { id: 'paul', label: "Paul's Letters", books: null, authors: ['Paul'] },
+    { id: 'john', label: "John's Writings", books: null, authors: ['John'] },
+    { id: 'david', label: 'Psalms of David', books: [18], authors: ['David'] },
+    { id: 'wisdom', label: 'Poetry & Wisdom', books: range(17, 22), authors: null },
+    { id: 'prophets', label: 'The Prophets', books: range(22, 39), authors: null },
+  ];
+  const norm = (sel) => ({ books: sel.books && sel.books.length ? sel.books.slice().sort((a, b) => a - b) : null, authors: sel.authors && sel.authors.length ? sel.authors.slice().sort() : null });
+  const sameSel = (a, b) => JSON.stringify(norm(a)) === JSON.stringify(norm(b));
+  const presetOf = (sel) => PRESETS.find((p) => sameSel(p, sel)) || null;
+
+  function includes(sel, bi, ch) {
+    if (sel.books && sel.books.length && !sel.books.includes(bi)) return false;
+    if (sel.authors && sel.authors.length && !sel.authors.includes(authorOf(bi, ch))) return false;
+    return true;
+  }
+  function measure(sel) {
+    let n = 0, words = 0;
+    BOOKS.forEach((b, bi) => { for (let c = 1; c <= b.chapters; c++) if (includes(sel, bi, c)) { n++; words += b.words[S.tr][c - 1]; } });
+    return { n, words };
+  }
+  function fmtDur(words) {
+    const min = words / (160 * S.rate) + 0.1;
+    if (min < 1.5) return 'about a minute';
+    if (min < 55) return `about ${Math.round(min)} min`;
+    const h = Math.floor(min / 60), m = Math.round((min - h * 60) / 5) * 5;
+    if (h >= 10) return `about ${Math.round(min / 60)} hours`;
+    if (m === 60) return `about ${h + 1} hr`;
+    return `about ${h} hr${m ? ` ${m} min` : ''}`;
+  }
+  const listNames = (arr, max) => arr.length <= max ? arr.join(' & ').replace(/ & (?=.* & )/g, ', ') : `${arr.slice(0, max - 1).join(', ')} + ${arr.length - max + 1} more`;
+  function stationName(sel) {
+    sel = norm(sel || S.sel);
+    const p = presetOf(sel);
+    if (p) return p.label;
+    const a = sel.authors ? listNames(sel.authors.map(authorLabel), 3) : '';
+    const b = sel.books ? listNames(sel.books.map((i) => BOOKS[i].name), 3) : '';
+    if (a && b) return `${a} in ${b}`;
+    return a || b || 'Whole Bible';
+  }
+
+  function buildQueue() {
+    const items = [];
+    if (S.order === 'chrono') {
+      for (const [bi, a, b] of CHRONO) for (let c = a; c <= b; c++) if (includes(S.sel, bi, c)) items.push([bi, c]);
+    } else {
+      BOOKS.forEach((bk, bi) => { for (let c = 1; c <= bk.chapters; c++) if (includes(S.sel, bi, c)) items.push([bi, c]); });
+      if (S.order === 'written') {
+        items.sort((x, y) => (dateOf(x[0], x[1]) - dateOf(y[0], y[1])) || (x[0] - y[0]) || (x[1] - y[1]));
+      }
+    }
+    return items;
+  }
+
+  // A new station or order starts from its first chapter, like tuning to a new station.
+  function rebuild() {
+    S.queue = buildQueue();
+    S.qi = 0; S.vi = 0;
+    if (!S.queue.length) stop();
+    else if (S.playing) speakFrom();
+    renderAll();
+    save();
+  }
+
+  // ---------- speech ----------
+  let voices = [];
+  function loadVoices() {
+    if (!synth) return;
+    const all = synth.getVoices().filter((v) => /^en(-|_|$)/i.test(v.lang));
+    const score = (v) => (/GB/i.test(v.lang) ? 0 : /AU|IE|NZ/i.test(v.lang) ? 1 : 2) * 10 + (/premium|enhanced|natural|neural/i.test(v.name) ? 0 : 3) + (/daniel|arthur|serena|google uk|kate|oliver/i.test(v.name) ? 0 : 1);
+    voices = all.sort((a, b) => score(a) - score(b) || a.name.localeCompare(b.name));
+    const sel = $('voiceSel');
+    if (!voices.length) { sel.innerHTML = '<option>Default voice</option>'; return; }
+    sel.innerHTML = voices.map((v, i) => `<option value="${i}">${v.name.replace(/</g, '')} (${v.lang})</option>`).join('');
+    let i = voices.findIndex((v) => v.voiceURI === S.voiceURI);
+    if (i < 0) i = 0;
+    sel.value = String(i);
+    S.voiceURI = voices[i].voiceURI;
+  }
+  const currentVoice = () => voices.find((v) => v.voiceURI === S.voiceURI) || null;
+
+  function speechText(t) {
+    return t.replace(/\b([A-Z])([A-Z]{2,})\b/g, (m, a, b) => a + b.toLowerCase()).replace(/[[\]]/g, '');
+  }
+  function chunks(t) {
+    if (t.length <= 220) return [t];
+    const parts = t.split(/(?<=[.;:?!,])\s+/);
+    const out = []; let buf = '';
+    for (const p of parts) {
+      if (buf && (buf + ' ' + p).length > 220) { out.push(buf); buf = p; } else buf = buf ? buf + ' ' + p : p;
+    }
+    if (buf) out.push(buf);
+    return out;
+  }
+  function announcement(bi, ch, newBook) {
+    const b = BOOKS[bi];
+    if (b.code === 'PSA') return `Psalm ${ch}.`;
+    if (b.chapters === 1) return `${b.spoken}.`;
+    return newBook ? `${b.spoken}. Chapter ${ch}.` : `${b.spoken}, chapter ${ch}.`;
+  }
+
+  async function speakFrom() {
+    const g = ++S.gen;
+    if (synth) synth.cancel();
+    const item = S.queue[S.qi];
+    if (!item) return stop();
+    const [bi, ch] = item;
+    let vs;
+    try { vs = (await loadBook(S.tr, bi))[ch - 1]; }
+    catch (e) { showMsg('Could not load this book. Check your connection and press play again.'); return stop(); }
+    if (g !== S.gen) return;
+    await renderText();
+    if (!synth) { showMsg('This browser cannot read aloud. Try Safari on iPhone or Mac, or Chrome or Edge on a computer.'); return stop(); }
+    const prev = S.queue[S.qi - 1];
+    const parts = [];
+    if (S.vi === 0 && S.announce) parts.push({ text: announcement(bi, ch, !prev || prev[0] !== bi), v: -1 });
+    for (let v = S.vi; v < vs.length; v++) {
+      if (!vs[v]) continue;
+      for (const c of chunks(speechText(vs[v]))) parts.push({ text: c, v });
+    }
+    let k = 0;
+    const next = () => {
+      if (g !== S.gen) return;
+      if (S.sleepAt && Date.now() >= S.sleepAt) { sleepNow(); return; }
+      if (k >= parts.length) { advance(); return; }
+      const p = parts[k++];
+      if (p.v >= 0 && p.v !== S.vi) { S.vi = p.v; highlight(); save(); }
+      else if (p.v >= 0) highlight();
+      const u = new SpeechSynthesisUtterance(p.text);
+      const voice = currentVoice();
+      if (voice) { u.voice = voice; u.lang = voice.lang; } else u.lang = 'en-GB';
+      u.rate = S.rate;
+      u.onend = () => { if (g === S.gen) setTimeout(next, p.v < 0 ? 350 : 40); };
+      u.onerror = (e) => { if (g !== S.gen) return; if (e.error === 'interrupted' || e.error === 'canceled') return; setTimeout(next, 40); };
+      window.__wwUtterance = u; // keeps a reference so some browsers do not drop the end event
+      synth.speak(u);
+    };
+    setTimeout(next, 60);
+  }
+
+  function advance() {
+    if (S.sleep === 'chapter') { S.qi = Math.min(S.qi + 1, S.queue.length - 1); S.vi = 0; sleepNow(); return; }
+    if (S.qi + 1 >= S.queue.length) {
+      S.qi = 0; S.vi = 0; stop(); renderAll();
+      showMsg('That is the end of this station. Press play to start again from the beginning.');
+      return;
+    }
+    S.qi++; S.vi = 0; save(); renderDial();
+    speakFrom();
+    prefetch();
+  }
+  function prefetch() {
+    const n = S.queue[S.qi + 1];
+    if (n) loadBook(S.tr, n[0]).catch(() => {});
+  }
+  function play() {
+    if (!S.queue.length) return;
+    hideMsg();
+    S.playing = true;
+    if (S.sleep !== '0' && S.sleep !== 'chapter') S.sleepAt = Date.now() + Number(S.sleep) * 60000;
+    renderPower();
+    speakFrom();
+  }
+  function stop() {
+    S.playing = false; S.gen++;
+    if (synth) synth.cancel();
+    renderPower();
+  }
+  function sleepNow() {
+    stop(); S.sleepAt = 0; S.sleep = '0'; $('sleepSel').value = '0'; renderAll(); save();
+    showMsg('Sleep timer finished. Good night.');
+  }
+  function jump(qi, vi) {
+    S.qi = Math.max(0, Math.min(qi, S.queue.length - 1)); S.vi = vi || 0;
+    save(); renderDial(); renderUpNext();
+    if (S.playing) speakFrom(); else renderText();
+  }
+
+  // ---------- rendering ----------
+  function showMsg(t) { const m = $('msg'); m.textContent = t; m.hidden = false; }
+  function hideMsg() { $('msg').hidden = true; }
+
+  function renderPower() {
+    const on = S.playing;
+    $('cabinet').classList.toggle('on', on);
+    $('cabinet').classList.toggle('off', !on);
+    $('onair').textContent = on ? 'On air' : 'Standing by';
+    $('playBtn').setAttribute('aria-label', on ? 'Pause' : 'Play');
+    $('playIcon').innerHTML = on ? '<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>' : '<path d="M7 4v16l14-8z"/>';
+  }
+
+  function renderDial() {
+    const q = S.queue, n = q.length;
+    const item = q[S.qi];
+    $('npStation').textContent = stationName();
+    $('capOrder').textContent = ORDER_NAMES[S.order];
+    if (!item) {
+      $('npTitle').textContent = 'No chapters';
+      $('npMeta').textContent = 'Pick at least one book or author';
+      $('npPos').textContent = '';
+      $('bandMarks').innerHTML = '';
+      return;
+    }
+    const [bi, ch] = item;
+    $('npTitle').textContent = chapLabel(bi, ch);
+    const dated = fmtYear(dateOf(bi, ch));
+    $('npMeta').textContent = `${authorLabel(authorOf(bi, ch))} · written ${dated}${S.dating === 'schol' ? ' (scholarly)' : ''}`;
+    $('npPos').textContent = `Chapter ${fmtN(S.qi + 1)} of ${fmtN(n)}`;
+    const pct = n > 1 ? (S.qi / (n - 1)) * 100 : 0;
+    $('needle').style.left = `${pct}%`;
+    const band = $('band');
+    band.setAttribute('aria-valuemax', String(n));
+    band.setAttribute('aria-valuenow', String(S.qi + 1));
+    band.setAttribute('aria-valuetext', `${chapLabel(bi, ch)}, chapter ${S.qi + 1} of ${n}`);
+  }
+
+  function renderBand() {
+    const q = S.queue, n = q.length, marks = [];
+    if (!n) { $('bandMarks').innerHTML = ''; return; }
+    const x = (i) => (n > 1 ? (i / (n - 1)) * 100 : 0);
+    let lastLbl = -100;
+    const runs = [];
+    q.forEach(([bi], i) => { if (!runs.length || runs[runs.length - 1].bi !== bi) runs.push({ bi, i }); });
+    const minGap = runs.length > 40 ? 9 : 7;
+    runs.forEach((r) => {
+      const p = x(r.i);
+      const lbl = p - lastLbl >= minGap && p <= 93;
+      marks.push(`<span class="tick${lbl ? ' big' : ''}" style="left:${p}%"></span>`);
+      if (lbl) { marks.push(`<span class="lbl" style="left:${p}%">${BOOKS[r.bi].name.replace(/^(\d) /, '$1 ').slice(0, 9)}</span>`); lastLbl = p; }
+    });
+    const steps = 5;
+    for (let s = 0; s <= steps; s++) {
+      const i = Math.round((s / steps) * (n - 1));
+      marks.push(`<span class="num" style="left:${x(i)}%">${fmtN(i + 1)}</span>`);
+    }
+    $('bandMarks').innerHTML = marks.join('');
+  }
+
+  async function renderText() {
+    const item = S.queue[S.qi];
+    $('readTr').textContent = TR_NAMES[S.tr];
+    if (!item) { $('readTitle').textContent = 'Nothing selected'; $('verses').innerHTML = '<p>Pick at least one book or author for this station.</p>'; return; }
+    const [bi, ch] = item;
+    $('readTitle').textContent = chapLabel(bi, ch);
+    const key = `${S.tr}/${bi}/${ch}`;
+    if ($('verses').dataset.key === key) { highlight(); return; }
+    let vs;
+    try { vs = (await loadBook(S.tr, bi))[ch - 1]; }
+    catch (e) { $('verses').innerHTML = '<p>Could not load this chapter. Check your connection and try again.</p>'; return; }
+    const cur = S.queue[S.qi];
+    if (!cur || cur[0] !== bi || cur[1] !== ch) return;
+    const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+    $('verses').innerHTML = vs.map((t, i) => t ? `<span class="v" data-v="${i}"><sup>${i + 1}</sup>${esc(t)}</span> ` : '').join('');
+    $('verses').dataset.key = key;
+    $('verses').scrollTop = 0;
+    highlight();
+  }
+  function highlight() {
+    const box = $('verses');
+    box.querySelectorAll('.v.cur').forEach((e) => e.classList.remove('cur'));
+    const el = box.querySelector(`.v[data-v="${S.vi}"]`);
+    if (!el) return;
+    if (S.playing || S.vi > 0) el.classList.add('cur');
+    const top = el.offsetTop - box.offsetTop;
+    if (top < box.scrollTop + 20 || top > box.scrollTop + box.clientHeight - 80) box.scrollTop = Math.max(0, top - box.clientHeight / 3);
+  }
+
+  function renderUpNext() {
+    const list = [];
+    for (let i = S.qi + 1; i < Math.min(S.queue.length, S.qi + 7); i++) {
+      const [bi, ch] = S.queue[i];
+      const meta = S.order === 'written' ? fmtYear(dateOf(bi, ch)) : authorLabel(authorOf(bi, ch));
+      list.push(`<li><button data-qi="${i}"><span>${chapLabel(bi, ch)}</span><span class="meta">${meta}</span></button></li>`);
+    }
+    $('upnext').innerHTML = list.join('') || '<li class="note">Nothing after this chapter.</li>';
+  }
+
+  function renderKeys() {
+    document.querySelectorAll('[data-tr]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.tr === S.tr)));
+    document.querySelectorAll('[data-order]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.order === S.order)));
+    document.querySelectorAll('[data-dating]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.dating === S.dating)));
+  }
+
+  function renderStation() {
+    const m = measure(S.sel);
+    $('tunedName').textContent = stationName();
+    $('tunedMeta').textContent = `${fmtN(m.n)} chapter${m.n === 1 ? '' : 's'} · ${fmtDur(m.words)} of listening`;
+  }
+
+  function renderAll() { renderKeys(); renderStation(); renderBand(); renderDial(); renderUpNext(); renderText(); renderPower(); }
+
+  // ---------- station picker (a draft that only takes effect on Play) ----------
+  let AUTHORS = [];          // in order of first appearance in the Bible
+  let BOOK_AUTHORS = [];     // per book: set of authors
+  let D = { books: null, authors: null }, Q = '', lastFocus = null, openA = false, openB = false;
+
+  function prepPicker() {
+    const seen = new Set();
+    BOOKS.forEach((b, bi) => {
+      const s = new Set();
+      for (let c = 1; c <= b.chapters; c++) { const a = authorOf(bi, c); s.add(a); if (!seen.has(a)) { seen.add(a); AUTHORS.push(a); } }
+      BOOK_AUTHORS.push(s);
+    });
+    AUTHORS = AUTHORS.filter((a) => a !== 'Unknown').concat(['Unknown']);
+  }
+  const escHtml = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  const authorChipName = (a) => a === 'Unknown' ? 'Anonymous' : a;
+  function matches(text) {
+    if (!Q) return true;
+    const q = Q.toLowerCase().replace(/^(first|1st|i)\s+/, '1 ').replace(/^(second|2nd|ii)\s+/, '2 ').replace(/^(third|3rd|iii)\s+/, '3 ');
+    return text.toLowerCase().includes(q) || text.toLowerCase().split(/\s+/).some((w) => w.startsWith(q));
+  }
+  const bookHasAuthors = (bi, authors) => authors.some((a) => BOOK_AUTHORS[bi].has(a));
+
+  // Keep the draft consistent: books must contain a chosen author, authors must appear in a chosen book.
+  function tidy(changed) {
+    D = norm(D);
+    if (changed === 'author' && D.books && D.authors) D.books = D.books.filter((bi) => bookHasAuthors(bi, D.authors));
+    if (changed === 'book' && D.books && D.authors) D.authors = D.authors.filter((a) => D.books.some((bi) => BOOK_AUTHORS[bi].has(a)));
+    D = norm(D);
+  }
+  function toggleIn(list, v) { const l = list ? list.slice() : []; const i = l.indexOf(v); if (i >= 0) l.splice(i, 1); else l.push(v); return l; }
+
+  function renderSheet() {
+    const preset = presetOf(D);
+    // Your station
+    const pills = [];
+    const x = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2l8 8M10 2L2 10" stroke="currentColor" stroke-width="2"/></svg>';
+    if (preset && preset.id !== 'all') {
+      pills.push(`<button class="pill" data-rm="all" aria-label="Remove ${escHtml(preset.label)}">${escHtml(preset.label)}${x}</button>`);
+    } else if (!preset) {
+      const items = (D.authors || []).map((a) => ({ k: 'author', v: a, t: authorChipName(a) }))
+        .concat((D.books || []).map((b) => ({ k: 'book', v: b, t: BOOKS[b].name })));
+      items.slice(0, 8).forEach((it) => pills.push(`<button class="pill" data-rm="${it.k}" data-v="${escHtml(it.v)}" aria-label="Remove ${escHtml(it.t)}"><span class="kind">${it.k}</span>${escHtml(it.t)}${x}</button>`));
+      if (items.length > 8) pills.push(`<span class="pill more">+ ${items.length - 8} more</span>`);
+    }
+    $('mine').innerHTML = `<span class="lead">Your station</span>` + (pills.length ? pills.join('') : '<span class="empty">The whole Bible. Tap anything below to narrow it down.</span>');
+
+    let visible = 0;
+    // Quick stations
+    const st = PRESETS.filter((p) => matches(p.label));
+    $('stationChips').innerHTML = st.map((p) => {
+      const m = measure(p);
+      return `<button class="chip station" data-preset="${p.id}" aria-pressed="${preset && preset.id === p.id}">${escHtml(p.label)}<span class="n">${fmtN(m.n)} ch. · ${fmtDur(m.words).replace('about ', '')}</span></button>`;
+    }).join('');
+    const showStations = !!Q || !D.books && !D.authors || !!preset;
+    $('secStations').hidden = !st.length || !showStations; if (showStations) visible += st.length;
+
+    // Authors: only those who wrote in the chosen books
+    const scopeBooks = D.books || range(0, 66);
+    const aCount = {};
+    scopeBooks.forEach((bi) => { for (let c = 1; c <= BOOKS[bi].chapters; c++) { const a = authorOf(bi, c); aCount[a] = (aCount[a] || 0) + 1; } });
+    const foldA = !!D.authors && !openA && !Q;
+    const authors = AUTHORS.filter((a) => aCount[a] && matches(authorChipName(a)) && (!foldA || D.authors.includes(a)));
+    $('authorChips').innerHTML = authors.map((a) => `<button class="chip" data-author="${escHtml(a)}" aria-pressed="${!!(D.authors && D.authors.includes(a))}">${escHtml(authorChipName(a))}<span class="n">${aCount[a]} ch.</span></button>`).join('')
+      + (foldA ? '<button class="chip addmore" data-expand="a">+ Add another author</button>' : '');
+    $('secAuthors').hidden = !authors.length; visible += authors.length;
+    $('secAuthors').querySelector('small').textContent = foldA ? 'your choice' : D.books ? 'only those who wrote in your chosen books' : 'tap one to hear only what they wrote';
+
+    // Books: only those the chosen authors wrote
+    const groups = [];
+    let nBooks = 0;
+    const foldB = !!D.books && !openB && !Q;
+    BOOKS.forEach((b, bi) => {
+      if (D.authors && !bookHasAuthors(bi, D.authors)) return;
+      if (foldB && !D.books.includes(bi)) return;
+      if (!matches(b.name) && !matches(b.spoken)) return;
+      let g = groups.find((y) => y.name === b.group); if (!g) groups.push(g = { name: b.group, items: [] });
+      const n = D.authors ? measure({ books: [bi], authors: D.authors }).n : b.chapters;
+      g.items.push(`<button class="chip" data-book="${bi}" aria-pressed="${!!(D.books && D.books.includes(bi))}">${escHtml(b.name)}<span class="n">${n} ch.</span></button>`);
+      nBooks++;
+    });
+    $('bookChips').innerHTML = groups.map((g) => `<h4>${escHtml(g.name)}</h4><div class="chips">${g.items.join('')}</div>`).join('')
+      + (foldB && (!D.authors || BOOKS.some((b, bi) => !D.books.includes(bi) && bookHasAuthors(bi, D.authors))) ? '<div class="chips" style="margin-top:10px"><button class="chip addmore" data-expand="b">+ Add another book</button></div>' : '');
+    $('secBooks').hidden = !nBooks; visible += nBooks;
+    const note = $('bookNote');
+    if (D.authors) { note.hidden = false; note.textContent = `Showing only books by ${listNames(D.authors.map(authorChipName), 3)}. Remove ${D.authors.length === 1 ? authorChipName(D.authors[0]) : 'an author'} above to see every book.`; }
+    else note.hidden = true;
+
+    $('noResults').hidden = visible > 0;
+    $('noResults').textContent = `Nothing matches “${Q}”. Try a book like Romans or an author like Paul.`;
+    $('qClear').hidden = !Q;
+
+    const m = measure(D);
+    $('sheetSum').innerHTML = `<b>${fmtN(m.n)} chapter${m.n === 1 ? '' : 's'}</b> · ${fmtDur(m.words)}`;
+    $('sheetPlay').disabled = m.n === 0;
+    $('sheetPlay').textContent = sameSel(D, S.sel) && S.playing ? 'Keep listening' : 'Play this station';
+    $('sheetReset').hidden = !D.books && !D.authors && !Q;
+  }
+
+  function openSheet() {
+    D = norm(S.sel); Q = ''; $('q').value = ''; openA = openB = false;
+    lastFocus = document.activeElement;
+    renderSheet();
+    $('sheetBack').hidden = false;
+    document.body.style.overflow = 'hidden';
+    $('sheetBody').scrollTop = 0;
+    if (window.matchMedia && matchMedia('(pointer: fine)').matches) $('q').focus(); else $('sheetClose').focus();
+  }
+  function closeSheet() {
+    $('sheetBack').hidden = true;
+    document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  function applySheet() {
+    const changed = !sameSel(D, S.sel);
+    closeSheet();
+    if (changed) { S.sel = norm(D); hideMsg(); rebuild(); }
+    if (!S.playing) play();
+  }
+  function pick(kind, v) {
+    if (kind === 'preset') {
+      const p = PRESETS.find((y) => y.id === v);
+      const on = presetOf(D) && presetOf(D).id === v;
+      D = on ? { books: null, authors: null } : { books: p.books && p.books.slice(), authors: p.authors && p.authors.slice() };
+      tidy();
+    } else if (kind === 'author') { D.authors = toggleIn(D.authors, v); tidy('author'); }
+    else if (kind === 'book') { D.books = toggleIn(D.books, +v); tidy('book'); }
+    if (Q) { Q = ''; $('q').value = ''; }
+    if (!D.authors) openA = false;
+    if (!D.books) openB = false;
+    renderSheet();
+    if (!openA && !openB) $('sheetBody').scrollTop = 0;
+  }
+
+  function wire() {
+    $('playBtn').addEventListener('click', () => (S.playing ? stop() : play()));
+    $('prevBtn').addEventListener('click', () => { if (S.vi > 2 && S.playing) jump(S.qi, 0); else jump(S.qi - 1, 0); });
+    $('nextBtn').addEventListener('click', () => jump(S.qi + 1, 0));
+    document.querySelectorAll('[data-tr]').forEach((b) => b.addEventListener('click', () => {
+      if (S.tr === b.dataset.tr) return;
+      S.tr = b.dataset.tr; renderKeys(); renderStation(); save();
+      if (S.playing) speakFrom(); else renderText();
+    }));
+    document.querySelectorAll('[data-order]').forEach((b) => b.addEventListener('click', () => {
+      if (S.order === b.dataset.order) return;
+      S.order = b.dataset.order; rebuild(true);
+    }));
+    document.querySelectorAll('[data-dating]').forEach((b) => b.addEventListener('click', () => {
+      if (S.dating === b.dataset.dating) return;
+      S.dating = b.dataset.dating;
+      if (S.order === 'written') rebuild(true); else { renderKeys(); renderDial(); renderUpNext(); save(); }
+    }));
+    $('changeBtn').addEventListener('click', openSheet);
+    $('npStationBtn').addEventListener('click', openSheet);
+    $('sheetClose').addEventListener('click', closeSheet);
+    $('sheetBack').addEventListener('click', (e) => { if (e.target === $('sheetBack')) closeSheet(); });
+    $('sheetPlay').addEventListener('click', applySheet);
+    $('sheetReset').addEventListener('click', () => { D = { books: null, authors: null }; Q = ''; openA = openB = false; $('q').value = ''; renderSheet(); });
+    $('sheetBack').addEventListener('click', (e) => {
+      const ex = e.target.closest('[data-expand]');
+      if (ex) { if (ex.dataset.expand === 'a') openA = true; else openB = true; renderSheet(); return; }
+      const t = e.target.closest('[data-preset],[data-author],[data-book],[data-rm]');
+      if (!t) return;
+      if (t.dataset.preset) pick('preset', t.dataset.preset);
+      else if (t.dataset.author) pick('author', t.dataset.author);
+      else if (t.dataset.book) pick('book', t.dataset.book);
+      else if (t.dataset.rm === 'all') { D = { books: null, authors: null }; renderSheet(); }
+      else pick(t.dataset.rm, t.dataset.v);
+    });
+    $('q').addEventListener('input', (e) => { Q = e.target.value.trim(); renderSheet(); });
+    $('q').addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+      const opts = $('sheetBody').querySelectorAll('[data-preset],[data-author],[data-book]');
+      if (opts.length >= 1 && Q) opts[0].click();
+    });
+    $('qClear').addEventListener('click', () => { Q = ''; $('q').value = ''; renderSheet(); $('q').focus(); });
+    document.addEventListener('keydown', (e) => {
+      if ($('sheetBack').hidden) return;
+      if (e.key === 'Escape') { e.preventDefault(); closeSheet(); }
+      if (e.key === 'Tab') {
+        const f = Array.from($('sheetBack').querySelectorAll('button:not([hidden]):not(:disabled), input')).filter((el) => el.offsetParent !== null);
+        if (!f.length) return;
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+    $('upnext').addEventListener('click', (e) => { const b = e.target.closest('[data-qi]'); if (b) jump(+b.dataset.qi, 0); });
+    $('verses').addEventListener('click', (e) => {
+      const v = e.target.closest('.v'); if (!v) return;
+      S.vi = +v.dataset.v; save();
+      if (S.playing) speakFrom(); else { highlight(); play(); }
+    });
+    const band = $('band');
+    const tune = (clientX) => {
+      const r = band.getBoundingClientRect();
+      const f = Math.min(1, Math.max(0, (clientX - r.left) / r.width));
+      jump(Math.round(f * (S.queue.length - 1)), 0);
+    };
+    band.addEventListener('click', (e) => tune(e.clientX));
+    band.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { e.preventDefault(); jump(S.qi + 1, 0); }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { e.preventDefault(); jump(S.qi - 1, 0); }
+      if (e.key === 'Home') { e.preventDefault(); jump(0, 0); }
+      if (e.key === 'End') { e.preventDefault(); jump(S.queue.length - 1, 0); }
+    });
+    $('voiceSel').addEventListener('change', (e) => { const v = voices[+e.target.value]; if (v) { S.voiceURI = v.voiceURI; save(); if (S.playing) speakFrom(); } });
+    $('speed').addEventListener('input', (e) => { S.rate = +e.target.value; $('speedVal').textContent = S.rate.toFixed(2).replace(/0$/, '') + '×'; renderStation(); });
+    $('speed').addEventListener('change', () => { save(); if (S.playing) speakFrom(); });
+    $('sleepSel').addEventListener('change', (e) => {
+      S.sleep = e.target.value;
+      S.sleepAt = (S.playing && S.sleep !== '0' && S.sleep !== 'chapter') ? Date.now() + Number(S.sleep) * 60000 : 0;
+    });
+    $('announce').addEventListener('change', (e) => { S.announce = e.target.checked; save(); });
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' && $('sheetBack').hidden && !e.target.closest('button, input, select, [role="slider"]')) { e.preventDefault(); S.playing ? stop() : play(); }
+    });
+    window.addEventListener('pagehide', () => { if (synth) synth.cancel(); });
+  }
+
+  // ---------- start ----------
+  async function init() {
+    try {
+      const r = await fetch('books.json');
+      const d = await r.json();
+      BOOKS = d.books; CHRONO = d.chrono;
+    } catch (e) {
+      $('verses').innerHTML = '<p>The radio could not load its book list. Reload the page to try again.</p>';
+      return;
+    }
+    const saved = restore();
+    if (saved) {
+      if (TR_NAMES[saved.tr]) S.tr = saved.tr;
+      if (ORDER_NAMES[saved.order]) S.order = saved.order;
+      if (saved.dating === 'schol') S.dating = 'schol';
+      if (saved.sel) S.sel = norm(saved.sel);
+      if (saved.rate) S.rate = saved.rate;
+      S.voiceURI = saved.voiceURI || null;
+      if (typeof saved.announce === 'boolean') S.announce = saved.announce;
+    }
+    $('speed').value = String(S.rate);
+    $('speedVal').textContent = S.rate.toFixed(2).replace(/0$/, '') + '×';
+    $('announce').checked = S.announce;
+    prepPicker();
+    wire();
+    S.queue = buildQueue();
+    if (!S.queue.length) { S.sel = { books: null, authors: null }; S.queue = buildQueue(); }
+    if (saved && saved.cur) {
+      const i = S.queue.findIndex((q) => q[0] === saved.cur[0] && q[1] === saved.cur[1]);
+      if (i >= 0) { S.qi = i; S.vi = saved.vi || 0; }
+    }
+    if (synth) {
+      loadVoices();
+      if (typeof synth.addEventListener === 'function') synth.addEventListener('voiceschanged', loadVoices);
+      else synth.onvoiceschanged = loadVoices;
+    } else {
+      $('voiceSel').innerHTML = '<option>Not available</option>';
+      showMsg('This browser cannot read aloud. Try Safari on iPhone or Mac, or Chrome or Edge on a computer.');
+    }
+    renderAll();
+    prefetch();
+  }
+  init();
+})();
+</script>
+</body>
+</html>
